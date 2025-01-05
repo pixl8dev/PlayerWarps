@@ -54,7 +54,7 @@ public class ConfirmationMenu<T> extends Menu {
                 )
                 .asGuiItem(event -> {
                     if (action.hasFee()) {
-                        if (!HookManager.getVaultHook().getApi().withdrawPlayer(player, action.getFee()).transactionSuccess()) {
+                        if (!HookManager.getVaultHook().getApi().has(player, action.getFee())) {
                             player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", NumberUtil.formatNumber(action.getFee())));
                             return;
                         }
