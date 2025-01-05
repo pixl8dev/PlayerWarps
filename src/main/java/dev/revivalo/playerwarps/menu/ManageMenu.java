@@ -82,8 +82,8 @@ public class ManageMenu extends Menu {
         if (Config.SET_CATEGORY_POSITION.asInteger() > 0) if (Config.ENABLE_CATEGORIES.asBoolean())
             gui.setItem(Config.SET_CATEGORY_POSITION.asInteger(), ItemBuilder.from(warp.getCategory() == null ? ItemUtil.getItem(Config.SET_CATEGORY_ITEM.asUppercase()) : warp.getCategory().getItem()).setName((Lang.CHANGE_TYPE.asColoredString())).setLore(Lang.CHANGE_TYPE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ChangeTypeMenu(warp).open(player)));
 
-        ChangeDisplayNameAction changeDisplayNameAction = new ChangeDisplayNameAction();
         if (Config.CHANGE_DISPLAY_NAME_POSITION.asInteger() > 0) {
+            ChangeDisplayNameAction changeDisplayNameAction = new ChangeDisplayNameAction();
             gui.setItem(
                     Config.CHANGE_DISPLAY_NAME_POSITION.asInteger(),
                     ItemBuilder
@@ -99,8 +99,8 @@ public class ManageMenu extends Menu {
             );
         }
 
-        SetPreviewItemAction setPreviewItemAction = new SetPreviewItemAction();
         if (Config.CHANGE_PREVIEW_ITEM_POSITION.asInteger() > 0) {
+            SetPreviewItemAction setPreviewItemAction = new SetPreviewItemAction();
             gui.setItem(
                     Config.CHANGE_PREVIEW_ITEM_POSITION.asInteger(),
                     ItemBuilder
@@ -114,8 +114,8 @@ public class ManageMenu extends Menu {
             );
         }
 
-        SetDescriptionAction setDescriptionAction = new SetDescriptionAction();
         if (Config.CHANGE_DESCRIPTION_POSITION.asInteger() > 0) {
+            SetDescriptionAction setDescriptionAction = new SetDescriptionAction();
             gui.setItem(
                     Config.CHANGE_DESCRIPTION_POSITION.asInteger(),
                     ItemBuilder
@@ -135,8 +135,8 @@ public class ManageMenu extends Menu {
             }})).asGuiItem(event -> new SetStatusMenu(warp).open(player)));
         }
 
-        RenameAction renameAction = new RenameAction();
         if (Config.RENAME_WARP_POSITION.asInteger() > 0) {
+            RenameAction renameAction = new RenameAction();
             gui.setItem(
                     Config.RENAME_WARP_POSITION.asInteger(),
                     ItemBuilder
@@ -159,8 +159,8 @@ public class ManageMenu extends Menu {
                             .setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event -> new RelocateAction().proceed(player, warp, null, new ManageMenu(warp), 1)));
 
-        TransferOwnershipAction transferOwnershipAction = new TransferOwnershipAction();
         if (Config.CHANGE_OWNER_POSITION.asInteger() > 0) {
+            TransferOwnershipAction transferOwnershipAction = new TransferOwnershipAction();
             gui.setItem(
                     Config.CHANGE_OWNER_POSITION.asInteger(),
                     ItemBuilder
@@ -172,12 +172,13 @@ public class ManageMenu extends Menu {
                             )
             );
         }
-
-        gui.setItem(Config.BLOCKED_PLAYERS_POSITION.asInteger(), ItemBuilder
-                .from(ItemUtil.getItem(Config.BLOCKED_PLAYERS_ITEM.asUppercase()))
-                .setName(Lang.BLOCKED_PLAYERS.asColoredString().replace("%amount%", String.valueOf(warp.getBlockedPlayers().size())))
-                .setLore(Lang.BLOCKED_PLAYERS_LORE.asReplacedList())
-                .asGuiItem(event -> new BlockedPlayersMenu(warp).open(player)));
+        if (Config.BLOCKED_PLAYERS_POSITION.asInteger() > 0) {
+            gui.setItem(Config.BLOCKED_PLAYERS_POSITION.asInteger(), ItemBuilder
+                    .from(ItemUtil.getItem(Config.BLOCKED_PLAYERS_ITEM.asUppercase()))
+                    .setName(Lang.BLOCKED_PLAYERS.asColoredString().replace("%amount%", String.valueOf(warp.getBlockedPlayers().size())))
+                    .setLore(Lang.BLOCKED_PLAYERS_LORE.asReplacedList())
+                    .asGuiItem(event -> new BlockedPlayersMenu(warp).open(player)));
+        }
 
         setDefaultItems(player, gui);
     }
