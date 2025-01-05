@@ -18,7 +18,7 @@ public class GriefPreventationChecker implements Checker {
         }
 
         if (!claim.getOwnerID().equals(player.getUniqueId())) {
-            player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_RESIDENCE.asColoredString());
+            player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_CLAIM.asColoredString());
             return false;
         }
 
