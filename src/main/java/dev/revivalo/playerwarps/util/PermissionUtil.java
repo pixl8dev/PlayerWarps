@@ -24,12 +24,9 @@ public final class PermissionUtil {
         for (PermissionAttachmentInfo attachmentInfo : player.getEffectivePermissions()) {
             if (attachmentInfo.getPermission().startsWith(permissionPrefix)) {
                 try {
-                    // Získání čísla na konci oprávnění
                     int limit = Integer.parseInt(attachmentInfo.getPermission().substring(permissionPrefix.length()));
-                    // Aktualizace maxLimit, pokud je nalezen vyšší limit
                     maxLimit = Math.max(maxLimit, limit);
                 } catch (NumberFormatException e) {
-                    // Ignoruje neplatné oprávnění, které není celé číslo
                     PlayerWarpsPlugin.get().getLogger().warning("Invalid limit permission: " + attachmentInfo.getPermission());
                 }
             }
@@ -37,7 +34,6 @@ public final class PermissionUtil {
 
         return maxLimit;
     }
-
 
     public enum Permission {
         ADMIN_PERMISSION("playerwarps.admin"),
