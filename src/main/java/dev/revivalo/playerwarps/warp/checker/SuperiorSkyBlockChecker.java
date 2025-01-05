@@ -13,7 +13,11 @@ public class SuperiorSkyBlockChecker implements Checker {
             return true;
         }
 
-        if (!island.getOwner().getUniqueId().equals(player.getUniqueId())) {
+        boolean allow;
+        allow = island.getIslandMembers().stream().anyMatch(sp -> sp.getUniqueId().equals(player.getUniqueId()))
+                || island.getOwner().getUniqueId().equals(player.getUniqueId());
+
+        if (!allow) {
             player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND.asColoredString());
             return false;
         }
