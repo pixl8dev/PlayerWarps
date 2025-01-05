@@ -6,6 +6,7 @@ import dev.revivalo.playerwarps.util.TextUtil;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public enum Config {
     LANGUAGE,
@@ -156,6 +157,10 @@ public enum Config {
 
     public List<String> asList() {
         return lists.get(this.name());
+    }
+
+    public List<Integer> asIntList() throws NumberFormatException{
+        return lists.get(this.name()).stream().map(Integer::valueOf).collect(Collectors.toList());
     }
 
     public long asLong() {

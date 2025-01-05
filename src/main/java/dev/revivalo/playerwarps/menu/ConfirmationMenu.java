@@ -3,6 +3,7 @@ package dev.revivalo.playerwarps.menu;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.warp.Warp;
@@ -45,30 +46,31 @@ public class ConfirmationMenu<T> extends Menu {
 
     @Override
     public void fill() {
-        for (String position : Config.CONFIRM_ITEM_POSITIONS.asList()) {
-            int slot = Integer.parseInt(position);
-            gui.setItem(slot, ItemBuilder
-                    .from(ItemUtil.getItem(Config.CONFIRM_ITEM.asUppercase()))
-                    .setName(action.getFee() == 0
-                            ? Lang.ACCEPT.asColoredString()
-                            : Lang.ACCEPT_WITH_PRICE.asColoredString().replace("%price%", NumberUtil.formatNumber(action.getFee()))
-                    )
-                    .asGuiItem(event -> {
-                        action.proceed(player, warp, data, null, 1, true);
-                        gui.close(player);
-                    }));
-        }
+        gui.setItem(Config.CONFIRM_ITEM_POSITIONS.asIntList(), ItemBuilder
+                .from(ItemUtil.getItem(Config.CONFIRM_ITEM.asUppercase()))
+                .setName(action.getFee() == 0
+                        ? Lang.ACCEPT.asColoredString()
+                        : Lang.ACCEPT_WITH_PRICE.asColoredString().replace("%price%", NumberUtil.formatNumber(action.getFee()))
+                )
+                .asGuiItem(event -> {
+                    if (action.hasFee()) {
+                        if (!HookManager.getVaultHook().getApi().withdrawPlayer(player, action.getFee()).transactionSuccess()) {
+                            player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", NumberUtil.formatNumber(action.getFee())));
+                            return;
+                        }
+                    }
+                    action.proceed(player, warp, data, null, 1, true);
+                    gui.close(player);
+                }));
 
-        for (String position : Config.DENY_ITEM_POSITIONS.asList()) {
-            int slot = Integer.parseInt(position);
-            gui.setItem(slot, DENY_ITEM.asGuiItem(event -> {
-                gui.close(player);
 
-                if (menuToOpen != null) {
-                    PlayerWarpsPlugin.get().runDelayed(() -> menuToOpen.open(player), 4);
-                }
-            }));
-        }
+        gui.setItem(Config.DENY_ITEM_POSITIONS.asIntList(), DENY_ITEM.asGuiItem(event -> {
+            gui.close(player);
+
+            if (menuToOpen != null) {
+                PlayerWarpsPlugin.get().runDelayed(() -> menuToOpen.open(player), 4);
+            }
+        }));
     }
 
     @Override
