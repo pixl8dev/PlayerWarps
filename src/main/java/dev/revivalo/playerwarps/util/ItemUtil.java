@@ -8,7 +8,6 @@ import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
-import io.th0rgal.oraxen.api.OraxenItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -81,8 +80,6 @@ public final class ItemUtil {
 //                PlaceholderAPI.setPlaceholders(null, )
 //            }
             return CustomStack.getInstance(name).getItemStack();
-        } else if (HookManager.getOraxenHook().isOn() && OraxenItems.exists(name)) {
-            return OraxenItems.getItemById(name).build();
         } else {
             if (Material.matchMaterial(name) != null) {
                 ItemStack item = new ItemStack(Material.matchMaterial(name));
