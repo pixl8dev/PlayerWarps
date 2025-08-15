@@ -9,7 +9,7 @@ import dev.revivalo.playerwarps.warp.WarpManager;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.entity.Player;
-
+import org.bukkit.Material;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -43,7 +43,7 @@ public abstract class Menu {
         gui.setItem(getMenuSize() - 9,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.WARP_LIST_ITEM.asString()))
-                        .glow(this instanceof CategoriesMenu || this instanceof WarpsMenu.DefaultWarpsMenu)
+                        //.glow(this instanceof CategoriesMenu || this instanceof WarpsMenu.DefaultWarpsMenu)
                         .setName(Lang.WARPS_ITEM_NAME.asColoredString())
                         .asGuiItem(event -> {
                             if (Config.ENABLE_CATEGORIES.asBoolean()) {
@@ -57,7 +57,7 @@ public abstract class Menu {
         gui.setItem(getMenuSize() - 8,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.MY_WARPS_ITEM.asString()))
-                        .glow(this instanceof WarpsMenu.MyWarpsMenu)
+                        //.glow(this instanceof WarpsMenu.MyWarpsMenu)
                         .setName(Lang.MY_WARPS_ITEM_NAME.asColoredString())
                         .asGuiItem(event -> {
                             if (!(this instanceof WarpsMenu.MyWarpsMenu))
@@ -71,7 +71,7 @@ public abstract class Menu {
         gui.setItem(getMenuSize() - 7,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.FAVORITE_WARPS_ITEM.asString()))
-                        .glow(this instanceof WarpsMenu.FavoriteWarpsMenu)
+                        //.glow(this instanceof WarpsMenu.FavoriteWarpsMenu)
                         .setName(Lang.FAVORITE_WARPS_ITEM_NAME.asColoredString())
                         .asGuiItem(event -> {
                             if (!(this instanceof WarpsMenu.FavoriteWarpsMenu))
@@ -80,6 +80,30 @@ public abstract class Menu {
                                             .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType());
                                 }
                         )
+        );
+        gui.setItem(getMenuSize() - 5,
+                ItemBuilder
+                        .from(Material.GRAY_STAINED_GLASS_PANE)
+                        .setName(" ")
+                        .asGuiItem()
+        );
+        gui.setItem(getMenuSize() - 3,
+                ItemBuilder
+                        .from(Material.GRAY_STAINED_GLASS_PANE)
+                        .setName(" ")
+                        .asGuiItem()
+        );
+        gui.setItem(getMenuSize() - 2,
+                ItemBuilder
+                        .from(Material.GRAY_STAINED_GLASS_PANE)
+                        .setName(" ")
+                        .asGuiItem()
+        );
+        gui.setItem(getMenuSize() - 1,
+                ItemBuilder
+                        .from(Material.GRAY_STAINED_GLASS_PANE)
+                        .setName(" ")
+                        .asGuiItem()
         );
     }
 
