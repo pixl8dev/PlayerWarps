@@ -63,13 +63,13 @@ public class WarpsMenu extends Menu {
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
         //if (paginatedGui.getPrevPageNum() != paginatedGui.getCurrentPageNum())
-        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 6, PREVIOUS_PAGE.asGuiItem(event -> {
+        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9, PREVIOUS_PAGE.asGuiItem(event -> {
             paginatedGui.previous();
             paginatedGui.updateTitle(this.getMenuTitle().asColoredString().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
         //if (paginatedGui.getNextPageNum() != paginatedGui.getCurrentPageNum())
-        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 4, NEXT_PAGE.asGuiItem(event -> {
+        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 1, NEXT_PAGE.asGuiItem(event -> {
             paginatedGui.next();
             paginatedGui.updateTitle(this.getMenuTitle().asColoredString().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
@@ -87,6 +87,34 @@ public class WarpsMenu extends Menu {
             put("%selector%", nextSortType.getName().asColoredString());
         }}));
 
+        if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
+            paginatedGui
+                    .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 2, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
+                            .setName(Lang.SEARCH_WARP.asColoredString())
+                            .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
+                            .asGuiItem(
+                                    event -> {
+                                        new InputMenu(null)
+                                                .setWarpAction(new SearchWarpAction())
+                                                .open(player);
+                                    }
+                            ));
+        }
+
+        if (!(this instanceof MyWarpsMenu))
+            paginatedGui
+                    .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 8, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
+                            .setName(Lang.SORT_WARPS.asColoredString())
+                            .setLore(sortLore)
+                            .asGuiItem(event -> {
+                                if (canSort(player)) {
+                                    paginatedGui.clearPageItems();
+                                    open(player, categoryName, nextSortType, foundWarps);
+                                } else {
+                                    player.sendMessage(Lang.WAIT_BEFORE_NEXT_ACTION.asColoredString());
+                                }
+                            })
+                    );
 
         final List<Warp> warps = (foundWarps == null) ? new ArrayList<>() : foundWarps;
 
