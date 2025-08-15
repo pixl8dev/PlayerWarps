@@ -40,7 +40,7 @@ public abstract class Menu {
     }
 
     protected void setDefaultItems(Player player, BaseGui gui) {
-        gui.setItem(getMenuSize() - 6,
+        gui.setItem(getMenuSize() - 9,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.WARP_LIST_ITEM.asString()))
                         .glow(this instanceof CategoriesMenu || this instanceof WarpsMenu.DefaultWarpsMenu)
@@ -54,7 +54,7 @@ public abstract class Menu {
                         })
         );
 
-        gui.setItem(getMenuSize() - 5,
+        gui.setItem(getMenuSize() - 8,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.MY_WARPS_ITEM.asString()))
                         .glow(this instanceof WarpsMenu.MyWarpsMenu)
@@ -68,7 +68,7 @@ public abstract class Menu {
                         )
         );
 
-        gui.setItem(getMenuSize() - 4,
+        gui.setItem(getMenuSize() - 7,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.FAVORITE_WARPS_ITEM.asString()))
                         .glow(this instanceof WarpsMenu.FavoriteWarpsMenu)
